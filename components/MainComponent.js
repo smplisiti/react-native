@@ -4,10 +4,17 @@ import Contact from "./ContactComponent";
 import Home from "./HomeComponent";
 import Directory from "./DirectoryComponent";
 import CampsiteInfo from "./CampsiteInfoComponent";
+<<<<<<< HEAD
 import { View, Platform, StyleSheet, Text, ScrollView, Image } from "react-native";
 import { createStackNavigator, createDrawerNavigator, DrawerItems } from "react-navigation";
 import { Icon } from 'react-native-elements';
 import SafeAreaView from 'react-native-safe-area-view';
+=======
+import { View, Platform, ScrollView } from "react-native";
+import { createStackNavigator, createDrawerNavigator } from "react-navigation";
+>>>>>>> 7c122906987ac3661ecca2110354a106114f6303
+
+
 
 const DirectoryNavigator = createStackNavigator(
   {
@@ -46,11 +53,33 @@ const HomeNavigator = createStackNavigator(
     navigationOptions: ({navigation}) => ({
       headerStyle: {
         backgroundColor: "#5637DD",
+<<<<<<< HEAD
+      },
+=======
       },
       headerTintColor: "#fff",
       headerTitleStyle: {
         color: "#fff",
       },
+    },
+  }
+);
+
+const AboutNavigator = createStackNavigator(
+  {
+    About: { screen: About },
+  },
+  {
+    navigationOptions: {
+      headerStyle: {
+        backgroundColor: "#5637DD",
+      },
+>>>>>>> 7c122906987ac3661ecca2110354a106114f6303
+      headerTintColor: "#fff",
+      headerTitleStyle: {
+        color: "#fff",
+      },
+<<<<<<< HEAD
       headerLeft: <Icon
        name='home' 
        type='font-awesome'
@@ -81,6 +110,9 @@ const AboutNavigator = createStackNavigator(
        onPress={() => navigation.toggleDrawer()}
        />
     }),
+=======
+    },
+>>>>>>> 7c122906987ac3661ecca2110354a106114f6303
   }
 );
 
@@ -89,7 +121,11 @@ const ContactNavigator = createStackNavigator(
     Contact: { screen: Contact },
   },
   {
+<<<<<<< HEAD
     navigationOptions: ({navigation}) => ({
+=======
+    navigationOptions: {
+>>>>>>> 7c122906987ac3661ecca2110354a106114f6303
       headerStyle: {
         backgroundColor: "#5637DD",
       },
@@ -97,6 +133,7 @@ const ContactNavigator = createStackNavigator(
       headerTitleStyle: {
         color: "#fff",
       },
+<<<<<<< HEAD
       headerLeft: <Icon
        name='address-card' 
        type='font-awesome'
@@ -104,6 +141,9 @@ const ContactNavigator = createStackNavigator(
        onPress={() => navigation.toggleDrawer()}
        />
     }),
+=======
+    },
+>>>>>>> 7c122906987ac3661ecca2110354a106114f6303
   }
 );
 
@@ -129,6 +169,7 @@ const CustomDrawerContentComponent = props => (
 
 const MainNavigator = createDrawerNavigator(
   {
+<<<<<<< HEAD
     Home: { 
       screen: HomeNavigator,
       navigationOptions: {
@@ -187,6 +228,15 @@ const MainNavigator = createDrawerNavigator(
   {
     drawerBackgroundColor: "#CEC8FF",
     contentComponent: CustomDrawerContentComponent
+=======
+    Home: { screen: HomeNavigator },
+    Directory: { screen: DirectoryNavigator },
+    About: { screen: AboutNavigator },
+    Contact: {screen: ContactNavigator },
+  },
+  {
+    drawerBackgroundColor: "#CEC8FF",
+>>>>>>> 7c122906987ac3661ecca2110354a106114f6303
   }
 );
 
