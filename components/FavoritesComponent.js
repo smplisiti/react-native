@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import Swipeout from 'react-native-swipeout';
+import { deleteFavorite } from '../redux/ActionCreators';
 import { FlatList, View, Text } from 'react-native';
 import { ListItem } from 'react-native-elements';
 import { connect } from 'react-redux';
@@ -12,6 +14,9 @@ const mapStateToProps = state => {
     };
 };
 
+const mapDispatchToProps = {    deleteFavorite: campsiteId => (deleteFavorite(campsiteId))};
+
+
 class Favorites extends Component {
 
     static navigationOptions = {
@@ -21,13 +26,23 @@ class Favorites extends Component {
     render() {
         const { navigate } = this.props.navigation;
         const renderFavoriteItem = ({item}) => {
+            const rightButton = [
+                {
+                    text: 'Delete',
+                    type: 'delete',
+                    onPress: () => this.props.deleteFavorite(item.id)
+                }
+            ];
+            
             return (
+                <Swipeout right={rightButton} autoClose={true}>
                 <ListItem
                     title={item.name}
                     subtitle={item.description}
                     leftAvatar={{source: {uri: baseUrl + item.image}}}
                     onPress={() => navigate('CampsiteInfo', {campsiteId: item.id})}
                 />
+                </Swipeout>
             );
         };
 
@@ -53,4 +68,4 @@ class Favorites extends Component {
     }
 }
 
-export default connect(mapStateToProps)(Favorites);
+export default connect(mapStateToProps, mapDispatchToProps)(Favorites);
