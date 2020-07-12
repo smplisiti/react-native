@@ -112,8 +112,10 @@ class CampsiteInfo extends Component {
     this.setState({ showModal: !this.state.showModal });
   }
   handleComment(campsiteId) {
-    this.props.postComment(campsiteId, this.state.rating, this.state.author, this.state.text)
-  }
+    this.props.postComment(campsiteId, this.state.rating, this.state.author, this.state.text);
+    
+  };
+  
 
   resetForm() {
     this.setState({
@@ -175,8 +177,8 @@ class CampsiteInfo extends Component {
               placeholder="Comment"
               leftIcon={{ type: "font-awesome", name: "comment-o" }}
               leftIconContainerStyle={{ paddingRight: 10 }}
-              onChangeText={(comment) => this.setState({ comment: comment })}
-              value={this.state.comment}
+              onChangeText={(text) => this.setState({ text: text })}
+              value={this.state.text}
             />
             <View>
               <Button
