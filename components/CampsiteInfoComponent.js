@@ -8,7 +8,8 @@ import {
   Button,
   StyleSheet,
   Alert,
-  PanResponder
+  PanResponder,
+  Share,
 } from "react-native";
 import { Card, Icon, Rating, Input } from "react-native-elements";
 import { connect } from "react-redux";
@@ -35,43 +36,70 @@ function RenderCampsite(props) {
 
   const view = React.createRef();
 
-  const recognizeDrag = ({dx}) => (dx < -200) ? true : false;
+  const recognizeDrag = ({ dx }) => (dx < -200 ? true : false);
 
-    const panResponder = PanResponder.create({
-        onStartShouldSetPanResponder: () => true,
-        onPanResponderGrant: () => {
-          view.current.rubberBand(1000)
-          .then(endState => console.log(endState.finished ? 'finished' : 'canceled'));
- 
-        },
-        onPanResponderEnd: (e, gestureState) => {
-            console.log('pan responder end', gestureState);
-            if (recognizeDrag(gestureState)) {
-                Alert.alert(
-                    'Add Favorite',
-                    'Are you sure you wish to add ' + campsite.name + ' to favorites?',
-                    [
-                        {
-                            text: 'Cancel',
-                            style: 'cancel',
-                            onPress: () => console.log('Cancel Pressed')
-                        },
-                        {
-                            text: 'OK',
-                            onPress: () => props.favorite ?
-                                console.log('Already set as a favorite') : props.markFavorite()
-                        }
-                    ],
-                    { cancelable: false }
-                );
-            }
-            return true;
-        }
-    });
+  const recognizeComment = ({ dx }) => (dx > 200 ? true : false);
+
+  const panResponder = PanResponder.create({
+    onStartShouldSetPanResponder: () => true,
+    onPanResponderGrant: () => {
+      view.current
+        .rubberBand(1000)
+        .then((endState) =>
+          console.log(endState.finished ? "finished" : "canceled")
+        );
+    },
+    onPanResponderEnd: (e, gestureState) => {
+      console.log("pan responder end", gestureState);
+      if (recognizeDrag(gestureState)) {
+        Alert.alert(
+          "Add Favorite",
+          "Are you sure you wish to add " + campsite.name + " to favorites?",
+          [
+            {
+              text: "Cancel",
+              style: "cancel",
+              onPress: () => console.log("Cancel Pressed"),
+            },
+            {
+              text: "OK",
+              onPress: () =>
+                props.favorite
+                  ? console.log("Already set as a favorite")
+                  : props.markFavorite(),
+            },
+          ],
+          { cancelable: false }
+        );
+      } else if (recognizeComment(gestureState)) {
+        props.onShowModal();
+      }
+      return true;
+    },
+  });
+
+  const shareCampsite = (title, message, url) => {
+    Share.share(
+      {
+        title: title,
+        message: `${title}: ${message} ${url}`,
+        url: url,
+      },
+      {
+        dialogTitle: "Share " + title,
+      }
+    );
+  };
 
   if (campsite) {
     return (
-      <Animatable.View animation="fadeInDown" duration={2000} delay={1000} ref={view} {...panResponder.panHandlers} >
+      <Animatable.View
+        animation="fadeInDown"
+        duration={2000}
+        delay={1000}
+        ref={view}
+        {...panResponder.panHandlers}
+      >
         <Card
           featuredTitle={campsite.name}
           image={{ uri: baseUrl + campsite.image }}
@@ -98,6 +126,22 @@ function RenderCampsite(props) {
               raised
               reverse
               onPress={() => props.onShowModal()}
+            />
+
+            <Icon
+              name={"share"}
+              type="font-awesome"
+              color="#5637DD"
+              style={styles.cardItem}
+              raised
+              reverse
+              onPress={() =>
+                shareCampsite(
+                  campsite.name,
+                  campsite.description,
+                  baseUrl + campsite.image
+                )
+              }
             />
           </View>
         </Card>
